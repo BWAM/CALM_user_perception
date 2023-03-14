@@ -94,7 +94,7 @@ lmas_raw <- readr::read_csv(
   )
 )
 
-lmas_prep <- lmas_raw |> 
+primary_lmas <- lmas_raw |> 
   select(
     site = LCIFD_LOCATION_HISTORY_ID,
     date = LCIFD_EVENT_LMAS_SAMPLE_DATE,
@@ -124,7 +124,7 @@ lmas_prep <- lmas_raw |>
     values_to = "primary_value"
   )
 
-lmas_trash_odor <- lmas_raw |> 
+supplemental_lmas <- lmas_raw |> 
   select(
     site = LCIFD_LOCATION_HISTORY_ID,
     date = LCIFD_EVENT_LMAS_SAMPLE_DATE,
@@ -139,6 +139,6 @@ lmas_trash_odor <- lmas_raw |>
   ) |> 
   filter(!is.na(supplemental_value)) |> 
   left_join(
-    lmas_prep,
+    primary_lmas,
     by = c("site", "date")
   )

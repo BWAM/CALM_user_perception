@@ -3,10 +3,10 @@ library(fetch)
 library(dplyr)
 
 # Fetch Stream Data
-userp_list <- fetch::fetch_field(
-  output = "standard")
+userp_list <- suppressWarnings(fetch::fetch_field(
+  output = "standard"))
 
-smas_prep <- userp_list$user_perception |> 
+primary_smas <- userp_list$user_perception |> 
   select(
     site = UPFDH_EVENT_SMAS_HISTORY_ID,
     date = UPFDH_EVENT_SMAS_SAMPLE_DATE,
@@ -33,7 +33,7 @@ smas_prep <- userp_list$user_perception |>
     values_to = "primary_value"
   )
 
-smas_trash_odor <- userp_list$user_perception |> 
+supplemental_smas <- userp_list$user_perception |> 
   select(
     site = UPFDH_EVENT_SMAS_HISTORY_ID,
     date = UPFDH_EVENT_SMAS_SAMPLE_DATE,
@@ -66,6 +66,6 @@ smas_trash_odor <- userp_list$user_perception |>
   ) |> 
   filter(!is.na(supplemental_value)) |> 
   left_join(
-    smas_prep,
+    primary_smas,
     by = c("site", "date")
   )
