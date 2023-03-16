@@ -1,16 +1,9 @@
-
+library(readr)
 lmas_raw <- readr::read_csv(
   file.path(
-    "C:",
-    "Users",
-    "zmsmith.000",
-    "New York State Office of Information Technology Services",
-    "BWAM - Lakes Database",
-    "Current",
-    "new_database",
-    "lci.field.csv"
+    "L:/BWAM Share/SMAS/data/archive/lci.field.csv"
   ),
-  col_types = cols(
+  col_types = readr::cols(
     LCIFD_LOCATION_HISTORY_ID = col_character(),
     LCIFD_EVENT_LMAS_SAMPLE_DATE = col_date(format = ""),
     LCIFD_EVENT_LMAS_DATA_PROVIDER = col_character(),
@@ -118,7 +111,7 @@ primary_lmas <- lmas_raw |>
       "Attaining"
     )
   ) |> 
-  pivot_longer(
+  tidyr::pivot_longer(
     cols = recreation:aesthetic,
     names_to = "primary_metric",
     values_to = "primary_value"
@@ -132,13 +125,21 @@ supplemental_lmas <- lmas_raw |>
     odors = LCIFD_ODORS
   ) |> 
   distinct() |> 
-  pivot_longer(
+  tidyr::pivot_longer(
     cols = trash:odors,
     names_to = "supplemental_metric",
     values_to = "supplemental_value"
   ) |> 
-  filter(!is.na(supplemental_value)) |> 
-  left_join(
-    primary_lmas,
-    by = c("site", "date")
+  filter(!is.na(supplemental_value))
+
+primary_lmas_raw<-primary_lmas
+
+primary_lmas<-merge(
+    primary_lmas_raw,
+    supplemental_lmas,
+    by = c("site", "date","primary_metric","primary_value","program")
   )
+
+primary_lmas<-primary_lmas|> 
+  distinct()|>
+  mutate(pwl = site)
