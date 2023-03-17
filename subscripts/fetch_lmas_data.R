@@ -143,3 +143,11 @@ primary_lmas<-merge(
 primary_lmas<-primary_lmas|> 
   distinct()|>
   mutate(pwl = site)
+
+primary_lmas_mr<-primary_lmas |>
+  dplyr::group_by(site,program,
+                  primary_metric, 
+                  primary_value,
+                  supplemental_metric) |>
+  dplyr::slice(which.max(date))
+

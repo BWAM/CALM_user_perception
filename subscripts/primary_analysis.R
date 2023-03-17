@@ -7,3 +7,9 @@ primary_counts_df <- bind_rows(
   mutate(total = sum(n)) |> 
   ungroup() |> 
   mutate(percent = round(n / total * 100, 2))
+
+primary_counts_df_mr <- bind_rows(
+  primary_lmas_mr,
+  primary_smas_mr
+) 
+

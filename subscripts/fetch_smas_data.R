@@ -140,3 +140,11 @@ primary_smas<-merge(
   by = c("site", "date")
 )
 
+# filter to dates and pwls
+
+primary_smas_mr<-primary_smas |>
+  dplyr::group_by(pwl,program,
+                  primary_metric, 
+                  primary_value,
+                  supplemental_metric) |>
+  dplyr::slice(which.max(date))

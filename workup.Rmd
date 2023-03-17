@@ -1,0 +1,64 @@
+---
+title: "User_perception"
+author: "Keleigh Reynolds"
+date: "3/9/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(fetch)
+library(janitor)
+library(tidyverse)
+
+# To DO
+# Get PWL -- KAR complete 3/16
+# Max date for multiple visits to the same site
+# Filter trash and odor DF to only pwls with impairment status
+
+source(here::here("subscripts", "fetch_smas_data.R"))
+source(here::here("subscripts", "fetch_lmas_data.R"))
+source(here::here("subscripts", "primary_analysis.R"))
+source(here::here("subscripts", "supplemental_analysis.R"))
+
+```
+ ## CALM and User Perception {.tabset}
+ 
+ 
+ ### Summary (all) by site
+ 
+```{r backround, warning = FALSE, message = FALSE}
+knitr::kable(primary_counts_df)
+
+```
+ 
+ ### Supplemental Round up by Site
+ 
+```{r supplemental_all, warning = FALSE,message = FALSE, echo = FALSE}
+
+knitr::kable(supplemental_counts_df)
+
+```
+### Impairment Specifics
+
+Here we grouped by PWL for streams, and filtered to just the most recent survey for all pwls and lakes.
+
+```{r warning = FALSE,message = FALSE, echo = FALSE}
+
+knitr::kable(primary_counts_df_mr)
+
+knitr::kable(supplemental_counts_pwl)
+
+```
+ 
+ 
+```{r impaired,warning = FALSE,message = FALSE, echo = FALSE}
+
+knitr::kable(primary_counts_plw_raw)
+```
+
+```{r impaired-supplemental,warning = FALSE,message = FALSE, echo = FALSE}
+
+knitr::kable(supplemental_counts_pwl_raw)
+```

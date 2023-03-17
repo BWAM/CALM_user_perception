@@ -3,7 +3,7 @@ library(janitor)
 library(tidyverse)
 
 # To DO
-# Get PWL
+# Get PWL -- KAR complete 3/16
 # Max date for multiple visits to the same site
 # Filter trash and odor DF to only pwls with impairment status
 
